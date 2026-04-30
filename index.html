@@ -44,9 +44,15 @@
         <a href="#services" class="nav-link">Services</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <div class="toggle-bar"></div>
-      </button>
+      <div class="nav-right-actions">
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+          <div class="toggle-bar"></div>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -63,10 +69,6 @@
   <header class="hero" id="hero">
     <div class="hero-container">
       <div class="hero-content" data-appear>
-        <div class="available-tag">
-          <span class="tag-highlight">2 slots</span>
-          <span class="tag-text">available in May</span>
-        </div>
         <div class="hero-text">
           <h1 class="hero-title"><span class="muted">Video editor</span> crafting Cinematic Experiences</h1>
           <p class="hero-description">Beautifully edited, easy-to-watch videos that help you stand out and connect with your audience.</p>
@@ -250,7 +252,7 @@
       <div class="services-grid">
 
         <!-- Service Card 1 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="video-editing" data-service-title="Video Editing" data-service-desc="Narrative-driven editing that keeps viewers emotionally engaged from start to finish. Watch demos of how raw footage is transformed into polished, cinematic final cuts with seamless transitions, pacing, and storytelling." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Cinematic Cut — Raw to Final,Speed Ramp Transitions Demo,Multi-cam Editing Workflow" data-service-tools="Premiere Pro,After Effects,Audition" data-service-highlights="Before & after raw-to-final edit comparison;Seamless cut transitions and speed ramps;Audio synchronization and sound design;Multi-cam editing workflow">
           <div class="hike-card-header">
             <h3 class="hike-card-title">Video Editing</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -265,10 +267,10 @@
             <div class="hike-stat"><span class="hike-stat-icon">⚡</span><span>Fast Delivery</span></div>
           </div>
           <p class="hike-desc">Narrative-driven editing that keeps viewers emotionally engaged from start to finish.</p>
-        </a>
+        </div>
 
         <!-- Service Card 2 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="color-grading" data-service-title="Color Grading" data-service-desc="Filmic color direction that reinforces tone, mood, and brand identity. These demos showcase the color grading process — from flat log footage to a rich, cinematic grade using custom LUTs, color wheels, and scopes in DaVinci Resolve." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Log to Cinematic Grade,Custom LUT Application,Scene Matching & Skin Tones" data-service-tools="DaVinci Resolve,Premiere Pro,Lightroom" data-service-highlights="Log to cinematic grade transformation;Custom LUT creation and application;Skin tone correction and consistency;Scene-to-scene color matching">
           <div class="hike-card-header">
             <h3 class="hike-card-title">Color Grading</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -283,10 +285,10 @@
             <div class="hike-stat"><span class="hike-stat-icon">🎞️</span><span>Filmic</span></div>
           </div>
           <p class="hike-desc">Filmic color direction that reinforces tone, mood, and brand identity.</p>
-        </a>
+        </div>
 
         <!-- Service Card 3 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="motion-graphics" data-service-title="Motion Graphics" data-service-desc="Elegant motion layers and title systems built for visual impact. These demos show how animated elements, kinetic typography, and 3D renders are designed and composited to create eye-catching visual effects and transitions." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Kinetic Typography Animation,Logo Reveal & Brand Intro,3D Particle Compositing" data-service-tools="After Effects,Cinema 4D,Illustrator" data-service-highlights="Kinetic typography animations;Logo reveal and brand intros;Particle effects and 3D compositing;Animated lower-thirds and infographics">
           <div class="hike-card-header">
             <h3 class="hike-card-title">Motion Graphics</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -301,10 +303,10 @@
             <div class="hike-stat"><span class="hike-stat-icon">🧊</span><span>Cinema 4D</span></div>
           </div>
           <p class="hike-desc">Elegant motion layers and title systems built for visual impact.</p>
-        </a>
+        </div>
 
         <!-- Service Card 4 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="social-reels" data-service-title="Social Reels" data-service-desc="Fast-paced short-form edits optimized for retention and shares. These demos showcase how vertical content is crafted for maximum engagement — punchy cuts, trending audio sync, text overlays, and hooks that stop the scroll." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Scroll-Stopping Hook Reel,Beat-Sync Trending Edit,Dynamic Caption Reel" data-service-tools="Premiere Pro,After Effects,CapCut" data-service-highlights="Scroll-stopping hooks in first 3 seconds;Trending audio and beat-sync editing;Dynamic text overlays and captions;Platform-optimized aspect ratios">
           <div class="hike-card-header">
             <h3 class="hike-card-title">Social Reels</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -319,10 +321,10 @@
             <div class="hike-stat"><span class="hike-stat-icon">🎵</span><span>TikTok</span></div>
           </div>
           <p class="hike-desc">Fast-paced short-form edits optimized for retention and shares.</p>
-        </a>
+        </div>
 
         <!-- Service Card 5 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="youtube-videos" data-service-title="YouTube Videos" data-service-desc="Clean long-form storytelling built around clarity and pacing. These demos illustrate how YouTube content is structured — engaging intros, well-paced chapters, B-roll integration, and retention-focused editing techniques." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Engaging Hook & Intro,Chapter-Based Pacing,B-Roll Integration Demo" data-service-tools="Premiere Pro,After Effects,Photoshop" data-service-highlights="Engaging hook and intro sequences;Chapter-based pacing and structure;B-roll integration and cutaways;Thumbnail-worthy color and framing">
           <div class="hike-card-header">
             <h3 class="hike-card-title">YouTube Videos</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -337,10 +339,10 @@
             <div class="hike-stat"><span class="hike-stat-icon">📈</span><span>SEO</span></div>
           </div>
           <p class="hike-desc">Clean long-form storytelling built around clarity and pacing.</p>
-        </a>
+        </div>
 
         <!-- Service Card 6 -->
-        <a href="#contact" class="hike-card">
+        <div class="hike-card" data-service="brand-films" data-service-title="Brand Films" data-service-desc="Premium launch films that shape brand perception and trust. These demos showcase end-to-end brand video production — from concept to final delivery — including storyboarding, cinematic filming, and strategic editing." data-service-videos="demo.MP4,demo.MP4,demo.MP4" data-service-video-labels="Brand Story Concept Film,Cinematic Product Launch,Corporate Identity Film" data-service-tools="Premiere Pro,DaVinci Resolve,After Effects,Cinema 4D" data-service-highlights="Story-driven concept development;Cinematic filming and direction guidance;Premium color grading and finishing;Multi-platform delivery and optimization">
           <div class="hike-card-header">
             <h3 class="hike-card-title">Brand Films</h3>
             <svg class="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
@@ -355,7 +357,7 @@
             <div class="hike-stat"><span class="hike-stat-icon">🎯</span><span>Strategy</span></div>
           </div>
           <p class="hike-desc">Premium launch films that shape brand perception and trust.</p>
-        </a>
+        </div>
 
       </div>
     </div>
@@ -610,9 +612,15 @@
           <a href="#about">About</a>
         </div>
         <div class="footer-nav-social">
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -620,6 +628,28 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== SERVICE DEMO MODAL ===== -->
+  <div class="service-modal-overlay" id="serviceModal">
+    <div class="service-modal">
+      <button class="modal-close service-modal-close-btn" id="serviceModalClose">&times;</button>
+      <div class="service-modal-body">
+        <h2 class="modal-title" id="serviceModalTitle"></h2>
+        <p class="modal-description" id="serviceModalDesc"></p>
+        <div class="service-videos-grid" id="serviceVideosGrid">
+          <!-- Videos will be injected here dynamically -->
+        </div>
+        <div class="modal-tools">
+          <span class="modal-tools-label">Tools Used</span>
+          <div class="modal-tools-tags" id="serviceModalTools"></div>
+        </div>
+        <div class="modal-highlights">
+          <span class="modal-highlights-label">What You'll See</span>
+          <ul class="modal-highlights-list" id="serviceModalHighlights"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== PROJECT DETAIL MODAL ===== -->
   <div class="project-modal-overlay" id="projectModal">

@@ -276,6 +276,162 @@ function initGSAPAnimations() {
   });
 }
 
+/* ===== SERVICE DEMO MODAL ===== */
+function initServiceModal() {
+  const overlay = document.getElementById('serviceModal');
+  const modalTitle = document.getElementById('serviceModalTitle');
+  const modalDesc = document.getElementById('serviceModalDesc');
+  const modalTools = document.getElementById('serviceModalTools');
+  const modalHighlights = document.getElementById('serviceModalHighlights');
+  const modalClose = document.getElementById('serviceModalClose');
+  const videosGrid = document.getElementById('serviceVideosGrid');
+
+  if (!overlay) return;
+
+  // Open modal on service card click
+  document.querySelectorAll('.hike-card[data-service]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Populate modal
+      modalTitle.textContent = card.dataset.serviceTitle || '';
+      modalDesc.textContent = card.dataset.serviceDesc || '';
+
+      // Multiple Videos Grid
+      videosGrid.innerHTML = '';
+      const videos = card.dataset.serviceVideos ? card.dataset.serviceVideos.split(',') : [];
+      const labels = card.dataset.serviceVideoLabels ? card.dataset.serviceVideoLabels.split(',') : [];
+
+      videos.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'service-video-item';
+
+        const video = document.createElement('video');
+        video.src = src.trim();
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+
+        const playOverlay = document.createElement('div');
+        playOverlay.className = 'video-play-overlay';
+        playOverlay.innerHTML = '<div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>';
+
+        const label = document.createElement('div');
+        label.className = 'service-video-label';
+        label.textContent = labels[index] ? labels[index].trim() : `Demo ${index + 1}`;
+
+        item.appendChild(video);
+        item.appendChild(playOverlay);
+        item.appendChild(label);
+
+        // Play/Pause on click
+        item.addEventListener('click', () => {
+          if (video.paused) {
+            // Pause all other videos in the grid
+            videosGrid.querySelectorAll('video').forEach(v => {
+              if (v !== video) { v.pause(); v.currentTime = 0; }
+            });
+            videosGrid.querySelectorAll('.service-video-item').forEach(i => i.classList.remove('playing'));
+            video.play().catch(() => {});
+            item.classList.add('playing');
+          } else {
+            video.pause();
+            item.classList.remove('playing');
+          }
+        });
+
+        // Hover play preview
+        item.addEventListener('mouseenter', () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
+        });
+
+        item.addEventListener('mouseleave', () => {
+          if (!item.classList.contains('playing')) {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+
+        videosGrid.appendChild(item);
+      });
+
+      // Tools tags
+      modalTools.innerHTML = '';
+      if (card.dataset.serviceTools) {
+        card.dataset.serviceTools.split(',').forEach(tool => {
+          const tag = document.createElement('span');
+          tag.className = 'modal-tool-tag';
+          tag.textContent = tool.trim();
+          modalTools.appendChild(tag);
+        });
+      }
+
+      // Highlights
+      modalHighlights.innerHTML = '';
+      if (card.dataset.serviceHighlights) {
+        card.dataset.serviceHighlights.split(';').forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item.trim();
+          modalHighlights.appendChild(li);
+        });
+      }
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close modal
+  function closeServiceModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    // Pause all videos
+    videosGrid.querySelectorAll('video').forEach(v => {
+      v.pause();
+      v.src = '';
+    });
+    videosGrid.innerHTML = '';
+  }
+
+  modalClose.addEventListener('click', closeServiceModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeServiceModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeServiceModal();
+  });
+}
+
+/* ===== DARK MODE ===== */
+function initDarkMode() {
+  const toggle = document.getElementById('darkModeToggle');
+  if (!toggle) return;
+
+  // Check for saved preference or system preference
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+
+  toggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    if (newTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+
+    localStorage.setItem('theme', newTheme);
+  });
+}
+
 /* ===== PROJECT MODAL ===== */
 function initProjectModal() {
   const overlay = document.getElementById('projectModal');
@@ -395,9 +551,11 @@ window.addEventListener('load', () => {
 
   initAppearAnimations();
   initNavbar();
+  initDarkMode();
   initScrollReveal();
   initCounters();
   initVideoHover();
+  initServiceModal();
   initProjectModal();
   initGSAPAnimations();
   initSmoothScroll();
