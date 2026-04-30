@@ -2749,30 +2749,6 @@ body,
   transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* ===== CUSTOM CURSOR ===== */
-.custom-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.custom-cursor.visible {
-  opacity: 1;
-}
-
-@media (pointer: fine) {
-  body, a, button, .hike-card, .project-card { cursor: none !important; }
-}
 
 /* ===== CHAR SPLIT (hero title & about name) ===== */
 /* .char-word keeps each whole word on one line — prevents mid-word breaks */
@@ -2785,7 +2761,7 @@ body,
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 .split-char {

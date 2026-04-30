@@ -503,24 +503,6 @@ function initCarousel() {
   });
 }
 
-/* ===== CUSTOM CURSOR ===== */
-function initCustomCursor() {
-  const cursor = document.getElementById('customCursor');
-  if (!cursor) return;
-
-  if (window.matchMedia('(pointer: coarse)').matches) {
-    cursor.style.display = 'none';
-    return;
-  }
-
-  document.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(-50%, -50%) translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-    cursor.classList.add('visible');
-  });
-
-  document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
-}
 
 /* ===== CHAR SPLIT HELPER ===== */
 function splitIntoChars(el) {
@@ -672,7 +654,6 @@ window.addEventListener('load', () => {
   initGSAPAnimations();
   initHeroCharAnimation();   // sets up chars + triggers delayed anim
   initLineReveal();
-  initCustomCursor();
   initButtonHoverEffect();
   initSmoothScroll();
   initCarousel();
