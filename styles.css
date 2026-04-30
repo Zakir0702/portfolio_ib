@@ -2748,3 +2748,99 @@ body,
 .tool-tag {
   transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
+
+/* ===== CUSTOM CURSOR ===== */
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.custom-cursor.visible {
+  opacity: 1;
+}
+
+@media (pointer: fine) {
+  body, a, button, .hike-card, .project-card { cursor: none !important; }
+}
+
+/* ===== CHAR SPLIT (hero title & about name) ===== */
+/* .char-word keeps each whole word on one line — prevents mid-word breaks */
+.char-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.char-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.2;
+}
+
+.split-char {
+  display: inline-block;
+}
+
+/* ===== LINE REVEAL (section headings) ===== */
+.word-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word-slide {
+  display: inline-block;
+}
+
+/* ===== WORD PARALLAX (about description) ===== */
+.parallax-word {
+  display: inline;
+}
+
+/* ===== BUTTON TEXT SLIDE HOVER ===== */
+.btn-label-wrap {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+
+.btn-label-top,
+.btn-label-bot {
+  display: block;
+  transition: transform 0.38s cubic-bezier(0.77, 0, 0.175, 1);
+  white-space: nowrap;
+}
+
+.btn-label-bot {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.btn-primary:hover .btn-label-top,
+.btn-inverse:hover .btn-label-top,
+.btn-dark:hover .btn-label-top,
+.btn-secondary:hover .btn-label-top {
+  transform: translateY(-100%);
+}
+
+.btn-primary:hover .btn-label-bot,
+.btn-inverse:hover .btn-label-bot,
+.btn-dark:hover .btn-label-bot,
+.btn-secondary:hover .btn-label-bot {
+  transform: translateY(-100%);
+}

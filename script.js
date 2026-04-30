@@ -1,20 +1,10 @@
 gsap.registerPlugin(ScrollTrigger);
 
-/* ===== APPEAR ON LOAD ===== */
-function initAppearAnimations() {
-  const heroContent = document.querySelector('[data-appear]');
-  const heroVisual = document.querySelector('[data-appear-delay]');
-
-  requestAnimationFrame(() => {
-    if (heroContent) heroContent.classList.add('visible');
-    if (heroVisual) heroVisual.classList.add('visible');
-  });
-}
 
 /* ===== SCROLL REVEAL ===== */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll(
-    '.section-tag, .section-heading, .stat-card, .working-card, .working-header, .about-content, .stats-grid, .footer-links'
+    '.section-tag, .stat-card, .working-card, .working-header, .about-content, .stats-grid, .footer-links'
   );
 
   revealElements.forEach(el => {
@@ -165,74 +155,50 @@ function initGSAPAnimations() {
     }
   );
 
-  // About section text reveal
-  gsap.from('.about-name', {
-    y: 30,
-    opacity: 0,
-    duration: 0.8,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '.about-section',
-      start: 'top 70%'
-    }
-  });
-
-  gsap.from('.about-description', {
-    y: 30,
-    opacity: 0,
-    duration: 0.8,
-    delay: 0.2,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '.about-section',
-      start: 'top 70%'
-    }
-  });
-
-  // Stagger hike cards
+  // Stagger hike cards — Studio375-style rise from below
   gsap.fromTo('.hike-card',
-    { y: 40, opacity: 0 },
+    { y: 80, opacity: 0 },
     {
       y: 0,
       opacity: 1,
-      duration: 0.6,
+      duration: 0.75,
       stagger: 0.1,
-      ease: 'power2.out',
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: '.services-grid',
-        start: 'top 85%'
+        start: 'top 88%'
       }
     }
   );
 
-  // Project cards slide in
+  // Project cards — dramatic entrance
   gsap.fromTo('.project-card',
-    { y: 50, opacity: 0 },
+    { y: 100, opacity: 0 },
     {
       y: 0,
       opacity: 1,
-      duration: 0.7,
-      stagger: 0.15,
-      ease: 'power2.out',
+      duration: 0.9,
+      stagger: 0.18,
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: '.projects-grid',
-        start: 'top 85%'
+        start: 'top 88%'
       }
     }
   );
 
   // Testimonial cards
-  gsap.fromTo('.testimonial-card', 
-    { y: 40, opacity: 0 },
+  gsap.fromTo('.testimonial-card',
+    { y: 80, opacity: 0 },
     {
       y: 0,
       opacity: 1,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
+      duration: 0.75,
+      stagger: 0.12,
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: '.testimonials-grid',
-        start: 'top 85%'
+        start: 'top 88%'
       }
     }
   );
@@ -537,19 +503,165 @@ function initCarousel() {
   });
 }
 
+/* ===== CUSTOM CURSOR ===== */
+function initCustomCursor() {
+  const cursor = document.getElementById('customCursor');
+  if (!cursor) return;
+
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    cursor.style.display = 'none';
+    return;
+  }
+
+  document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(-50%, -50%) translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    cursor.classList.add('visible');
+  });
+
+  document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
+}
+
+/* ===== CHAR SPLIT HELPER ===== */
+function splitIntoChars(el) {
+  function processNode(node, parent) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      const fragment = document.createDocumentFragment();
+      // Split by spaces so each word is wrapped in a no-break container —
+      // this prevents the browser from breaking a line mid-word.
+      const parts = text.split(' ');
+      parts.forEach((word, idx) => {
+        if (word.length > 0) {
+          const wordSpan = document.createElement('span');
+          wordSpan.className = 'char-word';
+          for (let i = 0; i < word.length; i++) {
+            const clip = document.createElement('span');
+            clip.className = 'char-clip';
+            const inner = document.createElement('span');
+            inner.className = 'split-char';
+            inner.textContent = word[i];
+            clip.appendChild(inner);
+            wordSpan.appendChild(clip);
+          }
+          fragment.appendChild(wordSpan);
+        }
+        if (idx < parts.length - 1) {
+          fragment.appendChild(document.createTextNode(' '));
+        }
+      });
+      parent.replaceChild(fragment, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      Array.from(node.childNodes).forEach(child => processNode(child, node));
+    }
+  }
+  Array.from(el.childNodes).forEach(child => processNode(child, el));
+  return el.querySelectorAll('.split-char');
+}
+
+/* ===== HERO CHAR ANIMATION ===== */
+function initHeroCharAnimation() {
+  const heroTitle = document.querySelector('[data-char-split].hero-title');
+  const aboutName = document.querySelector('[data-char-split].about-name');
+
+  if (heroTitle) {
+    const chars = splitIntoChars(heroTitle);
+    gsap.set(chars, { yPercent: 120, opacity: 0 });
+    // Fire right after preloader fades (5s timeout + ~200ms buffer)
+    gsap.to(chars, {
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.9,
+      stagger: 0.022,
+      ease: 'power3.out',
+      delay: 5.2
+    });
+  }
+
+  if (aboutName) {
+    const chars = splitIntoChars(aboutName);
+    gsap.set(chars, { yPercent: 120, opacity: 0 });
+    gsap.to(chars, {
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.75,
+      stagger: 0.03,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: aboutName,
+        start: 'top 88%'
+      }
+    });
+  }
+}
+
+/* ===== LINE REVEAL (section headings) ===== */
+function initLineReveal() {
+  document.querySelectorAll('[data-line-reveal]').forEach(heading => {
+    const text = heading.textContent.trim();
+    const words = text.split(/\s+/);
+    heading.innerHTML = words
+      .map(word => `<span class="word-clip"><span class="word-slide">${word}</span></span>`)
+      .join(' ');
+
+    gsap.fromTo(
+      heading.querySelectorAll('.word-slide'),
+      { yPercent: 120 },
+      {
+        yPercent: 0,
+        duration: 0.85,
+        stagger: 0.06,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: heading,
+          start: 'top 90%'
+        }
+      }
+    );
+  });
+}
+
+/* ===== WORD PARALLAX (about description) ===== */
+function initWordParallax() {
+  document.querySelectorAll('[data-word-parallax]').forEach(el => {
+    const text = el.textContent.trim();
+    const words = text.split(/\s+/);
+    el.innerHTML = words
+      .map(word => `<span class="parallax-word">${word}</span>`)
+      .join(' ');
+
+    gsap.fromTo(
+      el.querySelectorAll('.parallax-word'),
+      { opacity: 0.15 },
+      {
+        opacity: 1,
+        stagger: { each: 0.08, from: 'start' },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          end: 'bottom 30%',
+          scrub: 1.2
+        }
+      }
+    );
+  });
+}
+
+/* ===== BUTTON TEXT SLIDE HOVER ===== */
+function initButtonHoverEffect() {
+  document.querySelectorAll(
+    '.btn-primary .btn-text, .btn-inverse .btn-text, .btn-dark .btn-text, .btn-secondary .btn-text'
+  ).forEach(span => {
+    const text = span.textContent;
+    span.innerHTML = `<span class="btn-label-top">${text}</span><span class="btn-label-bot">${text}</span>`;
+    span.classList.add('btn-label-wrap');
+  });
+}
+
 /* ===== INIT ALL ===== */
 window.addEventListener('load', () => {
-  // Hide preloader after one full animation cycle (5s)
-  setTimeout(() => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-      preloader.classList.add('hidden');
-      // Remove from DOM after fade-out transition
-      setTimeout(() => preloader.remove(), 600);
-    }
-  }, 5000);
-
-  initAppearAnimations();
+  // Initialise everything that doesn't require the page to be visible yet
   initNavbar();
   initDarkMode();
   initScrollReveal();
@@ -558,7 +670,31 @@ window.addEventListener('load', () => {
   initServiceModal();
   initProjectModal();
   initGSAPAnimations();
+  initHeroCharAnimation();   // sets up chars + triggers delayed anim
+  initLineReveal();
+  initCustomCursor();
+  initButtonHoverEffect();
   initSmoothScroll();
   initCarousel();
   ScrollTrigger.refresh();
+
+  // Hide preloader after one full animation cycle (5s)
+  setTimeout(() => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      preloader.classList.add('hidden');
+      setTimeout(() => preloader.remove(), 600);
+    }
+    // Reveal hero image + remaining content after preloader fades
+    requestAnimationFrame(() => {
+      const heroVisual = document.querySelector('[data-appear-delay]');
+      if (heroVisual) heroVisual.classList.add('visible');
+    });
+  }, 5000);
+
+  // Hero content appears immediately (hidden under preloader anyway)
+  requestAnimationFrame(() => {
+    const heroContent = document.querySelector('[data-appear]');
+    if (heroContent) heroContent.classList.add('visible');
+  });
 });
