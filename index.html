@@ -2703,166 +2703,166 @@
     }
 
     /* ===== SECTION: CONTACT MODAL ===== */
-    function initContactModal() {
-      // ✅ Formsubmit.co — FREE, no signup needed!
-      // IMPORTANT: Replace with YOUR Gmail address below
-      // First submission will send a confirmation email to activate.
-      const YOUR_EMAIL = 'ibrahimshamshad@gmail.com';
+    // function initContactModal() {
+    //   // ✅ Formsubmit.co — FREE, no signup needed!
+    //   // IMPORTANT: Replace with YOUR Gmail address below
+    //   // First submission will send a confirmation email to activate.
+    //   const YOUR_EMAIL = 'ibrahimshamshad@gmail.com';
 
-      const modal = document.getElementById("contactModal");
-      const closeBtn = document.getElementById("closeModalBtn");
-      const contactForm = document.getElementById("contactForm");
-      const formMessage = document.getElementById("formMessage");
-      const successAck = document.getElementById("successAck");
-      const successDetails = document.getElementById("successDetails");
-      const successCloseBtn = document.getElementById("successCloseBtn");
+    //   const modal = document.getElementById("contactModal");
+    //   const closeBtn = document.getElementById("closeModalBtn");
+    //   const contactForm = document.getElementById("contactForm");
+    //   const formMessage = document.getElementById("formMessage");
+    //   const successAck = document.getElementById("successAck");
+    //   const successDetails = document.getElementById("successDetails");
+    //   const successCloseBtn = document.getElementById("successCloseBtn");
 
-      // Replace mailto links for "Book a Free Call" with modal trigger
-      const bookCallBtns = Array.from(document.querySelectorAll('.btn')).filter(btn => btn.textContent.includes('Book a Free Call'));
+    //   // Replace mailto links for "Book a Free Call" with modal trigger
+    //   const bookCallBtns = Array.from(document.querySelectorAll('.btn')).filter(btn => btn.textContent.includes('Book a Free Call'));
       
-      bookCallBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          modal.classList.add("active");
-          document.body.style.overflow = "hidden";
-          formMessage.className = "form-message";
-          formMessage.textContent = "";
-          contactForm.style.display = "";
-          successAck.classList.remove("active");
-        });
-      });
+    //   bookCallBtns.forEach(btn => {
+    //     btn.addEventListener('click', (e) => {
+    //       e.preventDefault();
+    //       modal.classList.add("active");
+    //       document.body.style.overflow = "hidden";
+    //       formMessage.className = "form-message";
+    //       formMessage.textContent = "";
+    //       contactForm.style.display = "";
+    //       successAck.classList.remove("active");
+    //     });
+    //   });
 
-      function closeModal() {
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
-        setTimeout(() => {
-          contactForm.style.display = "";
-          successAck.classList.remove("active");
-        }, 350);
-      }
+    //   function closeModal() {
+    //     modal.classList.remove("active");
+    //     document.body.style.overflow = "";
+    //     setTimeout(() => {
+    //       contactForm.style.display = "";
+    //       successAck.classList.remove("active");
+    //     }, 350);
+    //   }
 
-      closeBtn.addEventListener("click", closeModal);
-      successCloseBtn.addEventListener("click", closeModal);
+    //   closeBtn.addEventListener("click", closeModal);
+    //   successCloseBtn.addEventListener("click", closeModal);
       
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-      });
+    //   modal.addEventListener("click", (e) => {
+    //     if (e.target === modal) closeModal();
+    //   });
 
-      // Confetti burst animation
-      function burstConfetti(container) {
-        const colors = ['#4ff5a7', '#c9a84c', '#f5f0e8', '#ff6b6b', '#48dbfb'];
-        for (let i = 0; i < 20; i++) {
-          const dot = document.createElement('div');
-          dot.className = 'confetti-dot';
-          dot.style.background = colors[Math.floor(Math.random() * colors.length)];
-          dot.style.left = '50%';
-          dot.style.top = '30%';
-          container.appendChild(dot);
-          gsap.to(dot, {
-            x: (Math.random() - 0.5) * 260,
-            y: (Math.random() - 0.5) * 200,
-            opacity: 1,
-            scale: Math.random() * 1.5 + 0.5,
-            duration: 0.5,
-            ease: 'power2.out',
-            onComplete: () => {
-              gsap.to(dot, {
-                opacity: 0,
-                y: '+=40',
-                duration: 0.6,
-                delay: 0.3,
-                ease: 'power2.in',
-                onComplete: () => dot.remove()
-              });
-            }
-          });
-        }
-      }
+    //   // Confetti burst animation
+    //   function burstConfetti(container) {
+    //     const colors = ['#4ff5a7', '#c9a84c', '#f5f0e8', '#ff6b6b', '#48dbfb'];
+    //     for (let i = 0; i < 20; i++) {
+    //       const dot = document.createElement('div');
+    //       dot.className = 'confetti-dot';
+    //       dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+    //       dot.style.left = '50%';
+    //       dot.style.top = '30%';
+    //       container.appendChild(dot);
+    //       gsap.to(dot, {
+    //         x: (Math.random() - 0.5) * 260,
+    //         y: (Math.random() - 0.5) * 200,
+    //         opacity: 1,
+    //         scale: Math.random() * 1.5 + 0.5,
+    //         duration: 0.5,
+    //         ease: 'power2.out',
+    //         onComplete: () => {
+    //           gsap.to(dot, {
+    //             opacity: 0,
+    //             y: '+=40',
+    //             duration: 0.6,
+    //             delay: 0.3,
+    //             ease: 'power2.in',
+    //             onComplete: () => dot.remove()
+    //           });
+    //         }
+    //       });
+    //     }
+    //   }
 
-      // Show success acknowledgement
-      function showSuccess(name, email, phone) {
-        contactForm.style.display = 'none';
-        successDetails.innerHTML = `
-          <div class="success-detail-row"><span class="success-detail-label">Name</span><span class="success-detail-value">${name}</span></div>
-          <div class="success-detail-row"><span class="success-detail-label">Email</span><span class="success-detail-value">${email}</span></div>
-          <div class="success-detail-row"><span class="success-detail-label">Phone</span><span class="success-detail-value">${phone}</span></div>
-        `;
-        successAck.classList.add('active');
-        burstConfetti(document.getElementById('modalContent'));
-        gsap.fromTo(successAck, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
-      }
+    //   // Show success acknowledgement
+    //   function showSuccess(name, email, phone) {
+    //     contactForm.style.display = 'none';
+    //     successDetails.innerHTML = `
+    //       <div class="success-detail-row"><span class="success-detail-label">Name</span><span class="success-detail-value">${name}</span></div>
+    //       <div class="success-detail-row"><span class="success-detail-label">Email</span><span class="success-detail-value">${email}</span></div>
+    //       <div class="success-detail-row"><span class="success-detail-label">Phone</span><span class="success-detail-value">${phone}</span></div>
+    //     `;
+    //     successAck.classList.add('active');
+    //     burstConfetti(document.getElementById('modalContent'));
+    //     gsap.fromTo(successAck, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+    //   }
 
-      contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+    //   contactForm.addEventListener("submit", (e) => {
+    //     e.preventDefault();
         
-        const name = document.getElementById("formName").value.trim();
-        const email = document.getElementById("formEmail").value.trim();
-        const phone = document.getElementById("formPhone").value.trim();
-        const desc = document.getElementById("formDesc").value.trim();
+    //     const name = document.getElementById("formName").value.trim();
+    //     const email = document.getElementById("formEmail").value.trim();
+    //     const phone = document.getElementById("formPhone").value.trim();
+    //     const desc = document.getElementById("formDesc").value.trim();
         
-        // Basic validation
-        if (!name || !email || !phone || !desc) {
-          formMessage.textContent = "Please fill out all required fields.";
-          formMessage.className = "form-message error";
-          return;
-        }
+    //     // Basic validation
+    //     if (!name || !email || !phone || !desc) {
+    //       formMessage.textContent = "Please fill out all required fields.";
+    //       formMessage.className = "form-message error";
+    //       return;
+    //     }
         
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          formMessage.textContent = "Please enter a valid email address.";
-          formMessage.className = "form-message error";
-          return;
-        }
+    //     // Email validation
+    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     if (!emailRegex.test(email)) {
+    //       formMessage.textContent = "Please enter a valid email address.";
+    //       formMessage.className = "form-message error";
+    //       return;
+    //     }
 
-        // Phone validation
-        const phoneClean = phone.replace(/[\s\-\(\)]/g, '');
-        if (phoneClean.length < 8) {
-          formMessage.textContent = "Please enter a valid phone number.";
-          formMessage.className = "form-message error";
-          return;
-        }
+    //     // Phone validation
+    //     const phoneClean = phone.replace(/[\s\-\(\)]/g, '');
+    //     if (phoneClean.length < 8) {
+    //       formMessage.textContent = "Please enter a valid phone number.";
+    //       formMessage.className = "form-message error";
+    //       return;
+    //     }
 
-        const submitBtn = contactForm.querySelector('.form-submit');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = "Sending...";
-        submitBtn.style.opacity = "0.7";
-        submitBtn.style.pointerEvents = "none";
+    //     const submitBtn = contactForm.querySelector('.form-submit');
+    //     const originalText = submitBtn.textContent;
+    //     submitBtn.textContent = "Sending...";
+    //     submitBtn.style.opacity = "0.7";
+    //     submitBtn.style.pointerEvents = "none";
 
-        // Send via Formsubmit.co (free, no signup)
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('phone', phone);
-        formData.append('message', desc);
-        formData.append('_subject', `🎬 New Call Booking from ${name}`);
-        formData.append('_template', 'table');
-        formData.append('_captcha', 'false');
+    //     // Send via Formsubmit.co (free, no signup)
+    //     const formData = new FormData();
+    //     formData.append('name', name);
+    //     formData.append('email', email);
+    //     formData.append('phone', phone);
+    //     formData.append('message', desc);
+    //     formData.append('_subject', `🎬 New Call Booking from ${name}`);
+    //     formData.append('_template', 'table');
+    //     formData.append('_captcha', 'false');
 
-        fetch(`https://formsubmit.co/ajax/${YOUR_EMAIL}`, {
-          method: 'POST',
-          body: formData
-        })
-          .then(res => res.json())
-          .then(data => {
-            contactForm.reset();
-            submitBtn.textContent = originalText;
-            submitBtn.style.opacity = "1";
-            submitBtn.style.pointerEvents = "auto";
-            formMessage.className = "form-message";
-            formMessage.textContent = "";
-            showSuccess(name, email, phone);
-          })
-          .catch((error) => {
-            console.error('Form Error:', error);
-            formMessage.textContent = "Something went wrong. Please try again.";
-            formMessage.className = "form-message error";
-            submitBtn.textContent = originalText;
-            submitBtn.style.opacity = "1";
-            submitBtn.style.pointerEvents = "auto";
-          });
-      });
-    }
+    //     fetch(`https://formsubmit.co/ajax/${YOUR_EMAIL}`, {
+    //       method: 'POST',
+    //       body: formData
+    //     })
+    //       .then(res => res.json())
+    //       .then(data => {
+    //         contactForm.reset();
+    //         submitBtn.textContent = originalText;
+    //         submitBtn.style.opacity = "1";
+    //         submitBtn.style.pointerEvents = "auto";
+    //         formMessage.className = "form-message";
+    //         formMessage.textContent = "";
+    //         showSuccess(name, email, phone);
+    //       })
+    //       .catch((error) => {
+    //         console.error('Form Error:', error);
+    //         formMessage.textContent = "Something went wrong. Please try again.";
+    //         formMessage.className = "form-message error";
+    //         submitBtn.textContent = originalText;
+    //         submitBtn.style.opacity = "1";
+    //         submitBtn.style.pointerEvents = "auto";
+    //       });
+    //   });
+    // }
 
     /* ===== INIT ===== */
     window.addEventListener("load", () => {
