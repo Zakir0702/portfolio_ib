@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { fetchMedia, mapMediaByKey, mergeMedia } from './api/media.js';
 import { fallbackMedia, tools, stats, workingImages, services, projects, testimonials, brands } from './data/portfolio.js';
+import { applyThemePreference, readStoredTheme } from './theme.js';
 import { Navbar } from './components/Navbar.jsx';
 import { Hero } from './components/Hero.jsx';
 import { ToolsMarquee } from './components/ToolsMarquee.jsx';
@@ -81,7 +82,7 @@ function usePortfolioAnimations() {
 export default function App() {
   const [apiMedia, setApiMedia] = useState({});
   const [mediaStatus, setMediaStatus] = useState('loading');
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState(() => readStoredTheme());
   const [mobileOpen, setMobileOpen] = useState(false);
   const [preloaderHidden, setPreloaderHidden] = useState(false);
   const [activeService, setActiveService] = useState(null);
@@ -90,8 +91,7 @@ export default function App() {
   usePortfolioAnimations();
 
   useEffect(() => {
-    document.documentElement.toggleAttribute('data-theme', theme === 'dark');
-    localStorage.setItem('theme', theme);
+    applyThemePreference(theme);
   }, [theme]);
 
   useEffect(() => {
