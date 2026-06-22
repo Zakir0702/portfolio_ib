@@ -1,6 +1,8 @@
 const streamifier = require('streamifier');
 const cloudinary = require('../config/cloudinary');
 
+const LARGE_VIDEO_THRESHOLD_BYTES = Number(process.env.CLOUDINARY_LARGE_UPLOAD_THRESHOLD_BYTES || 20 * 1024 * 1024);
+
 function slug(value) {
   return String(value || 'media')
     .trim()
@@ -17,6 +19,7 @@ function buildCloudinaryUploadOptions({ type, key }) {
     folder: process.env.CLOUDINARY_FOLDER || 'portfolio_ib',
     public_id: `${slug(key)}-${Date.now()}`,
     overwrite: false,
+    timeout: Number(process.env.CLOUDINARY_UPLOAD_TIMEOUT_MS || 300000),
   };
 
   if (resourceType === 'video') {
@@ -34,6 +37,19 @@ function uploadBufferToCloudinary(buffer, options) {
     });
     streamifier.createReadStream(buffer).pipe(stream);
   });
+}
+
+function uploadFileToCloudinary(filePath, options) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_large(filePath, options, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+}
+
+function shouldUseLargeUpload({ type, size }) {
+  return type === 'video' && Number(size || 0) >= LARGE_VIDEO_THRESHOLD_BYTES;
 }
 
 function resultToMediaRecord(result, metadata) {
@@ -61,6 +77,15 @@ async function uploadMediaBuffer(buffer, metadata) {
   return resultToMediaRecord(result, metadata);
 }
 
+async function uploadMediaFile(filePath, metadata) {
+  const options = {
+    ...buildCloudinaryUploadOptions(metadata),
+    chunk_size: Number(process.env.CLOUDINARY_CHUNK_SIZE || 6000000),
+  };
+  const result = await uploadFileToCloudinary(filePath, options);
+  return resultToMediaRecord(result, metadata);
+}
+
 async function deleteCloudinaryMedia(publicId, type) {
   return cloudinary.uploader.destroy(publicId, {
     resource_type: type === 'image' ? 'image' : 'video',
@@ -70,8 +95,10 @@ async function deleteCloudinaryMedia(publicId, type) {
 module.exports = {
   buildCloudinaryUploadOptions,
   uploadBufferToCloudinary,
+  uploadFileToCloudinary,
+  shouldUseLargeUpload,
   resultToMediaRecord,
   uploadMediaBuffer,
+  uploadMediaFile,
   deleteCloudinaryMedia,
 };
-

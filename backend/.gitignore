@@ -1,4 +1,4 @@
 node_modules/
 .env
-data/videos.json
-data/media.json
+data/*
+!data/media.json

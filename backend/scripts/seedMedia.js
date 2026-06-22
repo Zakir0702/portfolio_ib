@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
-const { addMedia } = require('../utils/mediaStore');
-const { uploadMediaBuffer } = require('../utils/cloudinaryUpload');
+const { addMedia, readMedia } = require('../utils/mediaStore');
+const { shouldUseLargeUpload, uploadMediaBuffer, uploadMediaFile } = require('../utils/cloudinaryUpload');
 
 const DEFAULT_MANIFEST = [
   { key: 'demo-reel', file: 'demo.mp4', type: 'video', title: 'Demo Reel', category: 'reel' },
@@ -14,6 +14,13 @@ const DEFAULT_MANIFEST = [
   { key: 'project-mountain', file: 'shangarh.jpg', type: 'image', title: 'Mountain Documentary', category: 'project' },
   { key: 'project-photography', file: 'photography.jpg', type: 'image', title: 'Photography Preview', category: 'project' },
 ];
+
+async function uploadSeedItem(buffer, item) {
+  if (shouldUseLargeUpload({ type: item.type, size: buffer.length })) {
+    return uploadMediaFile(item.filePath, item);
+  }
+  return uploadMediaBuffer(buffer, item);
+}
 
 function isGitLfsPointer(buffer) {
   const text = buffer.toString('utf8', 0, Math.min(buffer.length, 200));
@@ -37,8 +44,19 @@ function assertCloudinaryConfigured() {
   }
 }
 
-async function seedMedia({ assetRoot = path.join(__dirname, '..', '..', 'frontend', 'public', 'assets'), dryRun = false } = {}) {
-  const items = buildSeedItems(assetRoot);
+async function seedMedia({
+  assetRoot = path.join(__dirname, '..', '..', 'frontend', 'public', 'assets'),
+  manifest = DEFAULT_MANIFEST,
+  dryRun = false,
+  force = false,
+  onlyKeys = [],
+  existingMedia = readMedia(),
+  uploadFn = uploadSeedItem,
+  saveFn = addMedia,
+} = {}) {
+  const keySet = new Set(onlyKeys.filter(Boolean));
+  const selectedManifest = keySet.size > 0 ? manifest.filter(item => keySet.has(item.key)) : manifest;
+  const items = buildSeedItems(assetRoot, selectedManifest);
   if (!dryRun) assertCloudinaryConfigured();
 
   const results = [];
@@ -67,9 +85,23 @@ async function seedMedia({ assetRoot = path.join(__dirname, '..', '..', 'fronten
       continue;
     }
 
-    const uploaded = await uploadMediaBuffer(buffer, item);
-    const saved = addMedia(uploaded);
-    results.push({ ...summary, media: saved });
+    if (!force && existingMedia.some(media => media.key === item.key && media.url)) {
+      results.push({ ...summary, skipped: true, reason: 'already-seeded' });
+      continue;
+    }
+
+    try {
+      const uploaded = await uploadFn(buffer, item);
+      const saved = saveFn(uploaded);
+      results.push({ ...summary, media: saved });
+    } catch (error) {
+      results.push({
+        ...summary,
+        skipped: true,
+        reason: 'upload-failed',
+        error: error.message,
+      });
+    }
   }
 
   return results;
@@ -77,7 +109,11 @@ async function seedMedia({ assetRoot = path.join(__dirname, '..', '..', 'fronten
 
 async function main() {
   const dryRun = process.argv.includes('--dry-run');
-  const results = await seedMedia({ dryRun });
+  const force = process.argv.includes('--force');
+  const onlyKeys = process.argv
+    .filter(arg => arg.startsWith('--key='))
+    .map(arg => arg.slice('--key='.length));
+  const results = await seedMedia({ dryRun, force, onlyKeys });
   console.log(JSON.stringify({ dryRun, count: results.length, results }, null, 2));
 }
 
@@ -92,5 +128,6 @@ module.exports = {
   DEFAULT_MANIFEST,
   buildSeedItems,
   isGitLfsPointer,
+  uploadSeedItem,
   seedMedia,
 };

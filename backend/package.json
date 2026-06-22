@@ -4,10 +4,10 @@
   "description": "Backend for Ibrahim Shamshad portfolio — video upload via Cloudinary",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node --use-system-ca server.js",
+    "dev": "nodemon --exec \"node --use-system-ca\" server.js",
     "test": "node --test tests/*.test.js",
-    "seed:media": "node scripts/seedMedia.js"
+    "seed:media": "node --use-system-ca scripts/seedMedia.js"
   },
   "dependencies": {
     "cloudinary": "^2.5.1",

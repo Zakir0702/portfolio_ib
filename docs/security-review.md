@@ -18,11 +18,19 @@ Scope: `frontend/`, `backend/`, root project configuration, and the media upload
 
    `backend/scripts/seedMedia.js` detects Git LFS pointer files and skips them so a 136-byte pointer cannot be uploaded to Cloudinary as a fake video.
 
-4. Dependency advisories
+4. Node certificate trust mismatch
+
+   Cloudinary uploads failed with `unable to get local issuer certificate` because Node used its bundled CA store while the Windows system store trusted the issuer. Cloudinary-facing npm scripts now run Node with `--use-system-ca`.
+
+5. Large video upload timeout
+
+   The 40 MB demo video timed out with Cloudinary's regular upload stream. Local seed uploads now use Cloudinary chunked upload for large videos.
+
+6. Dependency advisories
 
    `npm audit fix` cleared backend Express/qs/brace-expansion advisories. Frontend esbuild was pinned through an npm override to clear the dev-server advisory.
 
-5. Overly broad static/root layout
+7. Overly broad static/root layout
 
    Frontend files moved into `frontend/`; backend serves `frontend/dist` only after build. Generated dependency, build, env, and data files are ignored.
 
@@ -36,6 +44,5 @@ Scope: `frontend/`, `backend/`, root project configuration, and the media upload
 
 ## Residual Notes
 
-- Cloudinary upload failed locally because Node could not validate the TLS issuer certificate. The implementation does not disable TLS verification; configure the correct corporate/root CA before running `npm run seed:media` for real uploads.
+- Cloudinary media seed completed for all 7 portfolio assets after switching to system CA trust, chunked video upload, and optimized image size.
 - A full formal Codex Security exhaustive scan with subagents was not run because the security-scan workflow requires explicit subagent authorization.
-
