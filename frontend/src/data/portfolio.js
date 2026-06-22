@@ -81,11 +81,7 @@ export const services = [
     highlights: ['Before and after raw-to-final edit comparison', 'Seamless cut transitions and speed ramps', 'Audio synchronization and sound design', 'Multi-cam editing workflow'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Cinematic Cut - Raw to Final', 'Speed Ramp Transitions Demo', 'Multi-cam Editing Workflow'],
-    images: [
-      'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=300&fit=crop',
-    ],
+    images: ['project-brand', 'project-mountain', 'project-travel'],
   },
   {
     key: 'color-grading',
@@ -96,11 +92,7 @@ export const services = [
     highlights: ['Log to cinematic grade transformation', 'Custom LUT creation and application', 'Skin tone correction and consistency', 'Scene-to-scene color matching'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Log to Cinematic Grade', 'Custom LUT Application', 'Scene Matching and Skin Tones'],
-    images: [
-      'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1502691876148-a84978e59af8?w=400&h=300&fit=crop',
-    ],
+    images: ['project-mountain', 'project-travel', 'project-photography'],
   },
   {
     key: 'motion-graphics',
@@ -111,11 +103,7 @@ export const services = [
     highlights: ['Kinetic typography animations', 'Logo reveal and brand intros', 'Particle effects and compositing', 'Animated lower-thirds and infographics'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Kinetic Typography Animation', 'Logo Reveal and Brand Intro', 'Compositing Demo'],
-    images: [
-      'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
-    ],
+    images: ['project-brand', 'project-photography', 'hero-image'],
   },
   {
     key: 'social-reels',
@@ -126,11 +114,7 @@ export const services = [
     highlights: ['Scroll-stopping hooks in first 3 seconds', 'Trending audio and beat-sync editing', 'Dynamic text overlays and captions', 'Platform-optimized aspect ratios'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Scroll-Stopping Hook Reel', 'Beat-Sync Trending Edit', 'Dynamic Caption Reel'],
-    images: [
-      'https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1598128558393-70ff21f8be44?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=400&h=300&fit=crop',
-    ],
+    images: ['project-photography', 'project-brand', 'project-travel'],
   },
   {
     key: 'youtube-videos',
@@ -141,11 +125,7 @@ export const services = [
     highlights: ['Engaging hook and intro sequences', 'Chapter-based pacing and structure', 'B-roll integration and cutaways', 'Thumbnail-worthy color and framing'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Engaging Hook and Intro', 'Chapter-Based Pacing', 'B-Roll Integration Demo'],
-    images: [
-      'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1526698905402-e13b880ad864?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop',
-    ],
+    images: ['project-travel', 'project-brand', 'project-mountain'],
   },
   {
     key: 'brand-films',
@@ -156,11 +136,7 @@ export const services = [
     highlights: ['Story-driven concept development', 'Cinematic filming and direction guidance', 'Premium color grading and finishing', 'Multi-platform delivery and optimization'],
     videos: ['demo-reel', 'demo-reel', 'demo-reel'],
     labels: ['Brand Story Concept Film', 'Cinematic Product Launch', 'Corporate Identity Film'],
-    images: [
-      'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=300&fit=crop',
-    ],
+    images: ['project-brand', 'hero-image', 'project-photography'],
   },
 ];
 

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { createMediaResolver, mergeMedia } from '../src/api/media.js';
+import { fallbackMedia, services } from '../src/data/portfolio.js';
 
 test('mergeMedia prefers API media over local fallback by key', () => {
   const merged = mergeMedia(
@@ -26,5 +27,15 @@ test('createMediaResolver returns fallback when API media is unavailable', () =>
 
   assert.equal(resolveMedia('project-travel').url, '/assets/tajmahal.jpg');
   assert.equal(resolveMedia('missing-key').url, '');
+});
+
+test('service preview images use managed media keys instead of remote URLs', () => {
+  const managedKeys = new Set(Object.keys(fallbackMedia));
+
+  for (const service of services) {
+    for (const imageKey of service.images) {
+      assert.ok(managedKeys.has(imageKey), `${service.key} uses unmanaged preview image ${imageKey}`);
+    }
+  }
 });
 

@@ -157,7 +157,7 @@ export default function App() {
       <ToolsMarquee tools={tools} />
       <About stats={stats} />
       <Working imageKeys={workingImages} resolveMedia={resolveMedia} />
-      <Services services={services} onOpen={setActiveService} />
+      <Services services={services} resolveMedia={resolveMedia} onOpen={setActiveService} />
       <Projects projects={projects} resolveMedia={resolveMedia} onOpen={setActiveProject} />
       <Testimonials testimonials={testimonials} />
       <Brands brands={brands} />

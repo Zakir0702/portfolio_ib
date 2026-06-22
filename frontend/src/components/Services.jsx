@@ -1,6 +1,14 @@
 import { useEffect } from 'react';
 
-function ServiceCard({ service, onOpen }) {
+function resolvePreviewImage(imageRef, resolveMedia) {
+  if (/^(https?:)?\/\//.test(imageRef) || imageRef.startsWith('/')) {
+    return { url: imageRef };
+  }
+
+  return resolveMedia(imageRef);
+}
+
+function ServiceCard({ service, resolveMedia, onOpen }) {
   return (
     <button className="hike-card" type="button" onClick={() => onOpen(service)}>
       <div className="hike-card-header">
@@ -8,11 +16,15 @@ function ServiceCard({ service, onOpen }) {
         <svg className="hike-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>
       </div>
       <div className="hike-images">
-        {service.images.map((src, index) => (
-          <div className="hike-img" style={{ '--i': index }} key={src}>
-            <img src={src} alt={`${service.title} preview ${index + 1}`} />
-          </div>
-        ))}
+        {service.images.map((imageRef, index) => {
+          const image = resolvePreviewImage(imageRef, resolveMedia);
+
+          return (
+            <div className="hike-img" style={{ '--i': index }} key={`${service.key}-${imageRef}-${index}`}>
+              <img src={image.url} alt={`${service.title} preview ${index + 1}`} loading="lazy" />
+            </div>
+          );
+        })}
       </div>
       <div className="hike-stats">
         <div className="hike-stat"><span>{service.tools[0]}</span></div>
@@ -70,7 +82,7 @@ export function ServiceModal({ service, resolveMedia, onClose }) {
   );
 }
 
-export function Services({ services, onOpen }) {
+export function Services({ services, resolveMedia, onOpen }) {
   return (
     <section className="services-section" id="services">
       <div className="services-container">
@@ -79,7 +91,7 @@ export function Services({ services, onOpen }) {
           <h2 className="section-heading">End-to-end video production services</h2>
         </div>
         <div className="services-grid">
-          {services.map(service => <ServiceCard service={service} onOpen={onOpen} key={service.key} />)}
+          {services.map(service => <ServiceCard service={service} resolveMedia={resolveMedia} onOpen={onOpen} key={service.key} />)}
         </div>
       </div>
     </section>
