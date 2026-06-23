@@ -23,3 +23,21 @@ test('service preview image stack reserves a stable layer above text content', (
   assert.match(cssRule('.hike-images'), /display:\s*grid/);
   assert.match(cssRule('.hike-img'), /position:\s*relative/);
 });
+
+test('theme color transitions do not override motion transitions on interactive surfaces', () => {
+  const themeTransitionRule = styles.match(/\/\* --- Smooth transition of all theme-related colors --- \*\/[\s\S]*?\n\}/)?.[0] || '';
+
+  assert.doesNotMatch(themeTransitionRule, /\.(hike-card|project-card|testimonial-card|btn-primary|btn-secondary|btn-inverse|btn-dark|dark-mode-toggle)\b/);
+  assert.match(cssRule('.hike-card'), /transition:[^;]*transform/);
+  assert.match(cssRule('.project-card'), /transition:[^;]*transform/);
+  assert.match(cssRule('.btn-primary'), /transition:[^;]*transform/);
+  assert.match(cssRule('.dark-mode-toggle'), /transition:[^;]*transform/);
+});
+
+test('scroll-scrubbed hero content avoids CSS transform transition lag', () => {
+  const rule = cssRule('.hero-content[data-appear]');
+
+  assert.match(rule, /transition:\s*opacity/);
+  assert.doesNotMatch(rule, /transition:[^;]*transform/);
+  assert.match(rule, /will-change:\s*transform,\s*opacity/);
+});
