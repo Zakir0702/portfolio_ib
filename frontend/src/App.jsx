@@ -16,6 +16,7 @@ import { Testimonials } from './components/Testimonials.jsx';
 import { Brands } from './components/Brands.jsx';
 import { Reel } from './components/Reel.jsx';
 import { Footer } from './components/Footer.jsx';
+import { AdminPanel } from './components/AdminPanel.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,8 +41,10 @@ function Preloader({ hidden }) {
   );
 }
 
-function usePortfolioAnimations() {
+function usePortfolioAnimations(enabled = true) {
   useEffect(() => {
+    if (!enabled) return undefined;
+
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return undefined;
 
@@ -76,10 +79,11 @@ function usePortfolioAnimations() {
 
     ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, []);
+  }, [enabled]);
 }
 
 export default function App() {
+  const isAdminRoute = window.location.pathname.replace(/\/+$/, '') === '/admin';
   const [apiMedia, setApiMedia] = useState({});
   const [mediaStatus, setMediaStatus] = useState('loading');
   const [theme, setTheme] = useState(() => readStoredTheme());
@@ -88,13 +92,18 @@ export default function App() {
   const [activeService, setActiveService] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
 
-  usePortfolioAnimations();
+  usePortfolioAnimations(!isAdminRoute);
 
   useEffect(() => {
     applyThemePreference(theme);
   }, [theme]);
 
   useEffect(() => {
+    if (isAdminRoute) {
+      setMediaStatus('admin');
+      return undefined;
+    }
+
     let cancelled = false;
     fetchMedia()
       .then(media => {
@@ -109,7 +118,7 @@ export default function App() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [isAdminRoute]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setPreloaderHidden(true), 900);
@@ -141,6 +150,11 @@ export default function App() {
   const heroImage = resolveMedia('hero-image');
   const avatar = resolveMedia('avatar');
   const reel = resolveMedia('demo-reel');
+  const toggleTheme = () => setTheme(current => current === 'dark' ? 'light' : 'dark');
+
+  if (isAdminRoute) {
+    return <AdminPanel theme={theme} onToggleTheme={toggleTheme} />;
+  }
 
   return (
     <>
@@ -149,7 +163,7 @@ export default function App() {
         avatar={avatar}
         theme={theme}
         mobileOpen={mobileOpen}
-        onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}
+        onToggleTheme={toggleTheme}
         onToggleMobile={() => setMobileOpen(open => !open)}
         onCloseMobile={() => setMobileOpen(false)}
       />
