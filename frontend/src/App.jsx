@@ -153,7 +153,7 @@ export default function App() {
         onToggleMobile={() => setMobileOpen(open => !open)}
         onCloseMobile={() => setMobileOpen(false)}
       />
-      <Hero heroImage={heroImage} />
+      <Hero heroImage={heroImage} preloaderDone={preloaderHidden} />
       <ToolsMarquee tools={tools} />
       <About stats={stats} />
       <Working imageKeys={workingImages} resolveMedia={resolveMedia} />

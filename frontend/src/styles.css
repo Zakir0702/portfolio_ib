@@ -679,8 +679,13 @@ button {
   font-size: clamp(32px, 6vw, 56px);
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   margin-bottom: 20px;
+}
+
+.hero-char {
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
 .hero-title .muted {
