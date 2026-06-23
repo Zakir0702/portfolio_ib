@@ -4,6 +4,7 @@ export function Navbar({ avatar, theme, mobileOpen, onToggleTheme, onToggleMobil
     ['#about', 'About'],
     ['#services', 'Services'],
     ['#contact', 'Contact'],
+    ['/admin', 'Admin'],
   ];
 
   return (

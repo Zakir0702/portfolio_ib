@@ -7,8 +7,8 @@ const adminPanelPath = new URL('../src/components/AdminPanel.jsx', import.meta.u
 
 test('App renders the admin panel on the /admin route', () => {
   assert.match(appSource, /AdminPanel/);
-  assert.match(appSource, /pathname/);
-  assert.match(appSource, /\/admin/);
+  assert.match(appSource, /isAdminPath/);
+  assert.match(appSource, /window\.location\.pathname/);
 });
 
 test('AdminPanel wires the media management workflow', () => {
@@ -22,4 +22,3 @@ test('AdminPanel wires the media management workflow', () => {
   assert.match(source, /sessionStorage/);
   assert.match(source, /URL\.createObjectURL/);
 });
-
